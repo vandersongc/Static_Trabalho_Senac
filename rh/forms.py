@@ -5,24 +5,24 @@ from .models import MensagemContato
 class ContatoModelForm(forms.ModelForm):
     
     class Meta:
-        # 1. Especifica o modelo que este formulário irá usar
         model = MensagemContato
         
-        # 2. Especifica os campos do modelo que queremos exibir no formulário.
-        #    Note que 'data_envio' e 'lido' não estão aqui, pois
-        #    eles são definidos automaticamente (default) e não pelo usuário.
-        fields = ['nome', 'email', 'assunto', 'mensagem']
+        # CAMPOS ATUALIZADOS
+        fields = ['nome', 'email', 'celular', 'assunto', 'descricao']
 
-        # 3. (Opcional) Personaliza os widgets para o HTML
+        # WIDGETS ATUALIZADOS
         widgets = {
             'nome': forms.TextInput(attrs={'placeholder': 'Seu nome completo', 'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'placeholder': 'seu-email@exemplo.com', 'class': 'form-control'}),
+            'celular': forms.TextInput(attrs={'placeholder': 'Ex: (XX) XXXXX-XXXX', 'class': 'form-control'}), # NOVO WIDGET
             'assunto': forms.TextInput(attrs={'placeholder': 'Assunto da mensagem', 'class': 'form-control'}),
-            'mensagem': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Digite sua mensagem...', 'class': 'form-control'}),
+            'descricao': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Digite sua mensagem...', 'class': 'form-control'}), # Mensagem renomeada para descricao
         }
         
-        # 4. (Opcional) Personaliza os labels (rótulos)
+        # LABELS ATUALIZADOS
         labels = {
             'nome': 'Nome Completo',
             'email': 'Seu E-mail',
+            'celular': 'Celular/Contato', # NOVO LABEL
+            'descricao': 'Descrição (Mensagem)', # LABEL AJUSTADO
         }

@@ -1,13 +1,31 @@
 from django.shortcuts import redirect, render
-from .models import Funcionarios
+# Certifique-se de importar todos os modelos: Funcionarios, Produto e Cliente
+from .models import Funcionarios, Produto, Cliente 
 from .forms import ContatoModelForm
+
 # Create your views here.
 def home(request):
     return render(request,'home.html')
+
+# NOVO: View de Produtos
 def produtos(request):
-    return render(request,'produtos.html')
+    # Busca todos os produtos cadastrados
+    produtos = Produto.objects.all()
+    context = {
+        'produtos': produtos
+    }
+    return render(request,'produtos.html', context)
+
+# NOVO: View de Clientes
 def clientes(request):
-    return render(request,'clientes.html')
+    # Busca todos os clientes cadastrados
+    clientes = Cliente.objects.all().order_by('nome_completo')
+    context = {
+        'clientes': clientes
+    }
+    return render(request,'clientes.html', context)
+
+# View de Funcionários (Deve estar com o nome correto: funcionarios, em minúsculas)
 def funcionarios(request):
     funcionarios = Funcionarios.objects.filter(status=True)
     context = {
@@ -18,23 +36,15 @@ def funcionarios(request):
 # A view principal do formulário
 def formulario_contato_view(request):
     if request.method == 'POST':
-        # Cria a instância do formulário com os dados vindos do request
         form = ContatoModelForm(request.POST)
         
         if form.is_valid():
-            # A MÁGICA DO MODELFORM:
-            # form.save() cria e salva um novo objeto 'MensagemContato'
-            # no banco de dados com os dados do formulário.
             form.save()
-            
-            # Redireciona para uma página de sucesso
             return redirect('contato_sucesso')
     
     else:
-        # Se for um GET, apenas cria um formulário vazio
         form = ContatoModelForm()
 
-    # Passa o formulário (vazio ou com erros) para o template
     return render(request, 'contato/contatos.html', {'form': form})
 
 

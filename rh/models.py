@@ -1,6 +1,7 @@
 from django.db import models
+from django.utils import timezone
 
-# Create your models here.
+# Modelos existentes: Funcionarios... (MANTIDO)
 class Funcionarios(models.Model):
     foto = models.ImageField(null=True, blank=True)
     nome = models.CharField(max_length=100)
@@ -9,22 +10,48 @@ class Funcionarios(models.Model):
     data_contratacao = models.DateField()
     status = models.BooleanField(default=True)
     
-    #corrige o problema de duplo 's' no nome do modelo no admin
     class Meta:
         verbose_name = "Funcionário"
-        verbose_name_plural = "Funcionários" # Define o nome plural correto
+        verbose_name_plural = "Funcionários" 
     def __str__(self):
         return self.nome
     
-    # contato/models.py
-from django.db import models
-from django.utils import timezone
+# NOVO MODELO: PRODUTO
+class Produto(models.Model):
+    imagem = models.ImageField(upload_to='produtos', null=True, blank=True)
+    nome = models.CharField(max_length=150)
+    categoria = models.CharField(max_length=100)
+    descricao = models.TextField()
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
 
+    class Meta:
+        verbose_name = "Produto"
+        verbose_name_plural = "Produtos"
+        
+    def __str__(self):
+        return self.nome
+
+# NOVO MODELO: CLIENTE
+class Cliente(models.Model):
+    nome_completo = models.CharField(max_length=150)
+    idade = models.IntegerField()
+    email = models.EmailField()
+    contato = models.CharField(max_length=20) # Para armazenar o telefone/celular
+
+    class Meta:
+        verbose_name = "Cliente"
+        verbose_name_plural = "Clientes"
+        
+    def __str__(self):
+        return self.nome_completo
+
+# MODELO MensagemContato (MODIFICADO)
 class MensagemContato(models.Model):
     nome = models.CharField(max_length=150)
     email = models.EmailField()
+    celular = models.CharField(max_length=20, null=True, blank=True) # NOVO CAMPO
     assunto = models.CharField(max_length=200)
-    mensagem = models.TextField()
+    descricao = models.TextField() # Mensagem renomeada para Descricao
     data_envio = models.DateTimeField(default=timezone.now)
     lido = models.BooleanField(default=False)
 
