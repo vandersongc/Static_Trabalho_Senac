@@ -4,10 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.messages import constants as message_constants
-from .forms import LoginForm, RegistroForm
+from .forms import LoginForm, RegistroForm, ContatoModelForm
 
 from .models import Funcionarios, Produto, Cliente
-from .forms import ContatoModelForm
+
 
 
 # Create your views here.
